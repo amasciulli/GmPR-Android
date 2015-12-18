@@ -16,10 +16,11 @@ public class PullRequestsCallback implements Callback<List<PullRequest>> {
         if (response.isSuccess()) {
             BusProvider.getInstance().post(new PullRequestsRetrievedEvent(response.body()));
         }
+        //TODO handle error
     }
 
     @Override
     public void onFailure(Throwable t) {
-
+        //TODO handle error
     }
 }

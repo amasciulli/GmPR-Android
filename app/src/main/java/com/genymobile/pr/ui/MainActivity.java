@@ -7,6 +7,8 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.genymobile.pr.bus.ReposRetrievedEvent;
+import com.genymobile.pr.net.ReposCallback;
 import com.genymobile.pr.net.GitHubProvider;
 import com.genymobile.pr.net.PullRequestsCallback;
 import com.genymobile.pr.R;
@@ -14,20 +16,14 @@ import com.genymobile.pr.model.Repo;
 import com.genymobile.pr.bus.BusProvider;
 import com.genymobile.pr.bus.PullRequestsRetrievedEvent;
 import com.squareup.otto.Subscribe;
-import retrofit.Callback;
-import retrofit.Response;
-import retrofit.Retrofit;
 
-import java.util.List;
-
-public class MainActivity extends AppCompatActivity implements Callback<List<Repo>>, ItemClickListener<Repo> {
+public class MainActivity extends AppCompatActivity implements ItemClickListener<Repo> {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String GENYMOBILE = "Genymobile";
 
     private RepoListAdapter adapter;
 
     private GitHubProvider provider = new GitHubProvider();
-    private List<Repo> repos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Rep
         adapter.setItemClickListener(this);
         recycler.setAdapter(adapter);
 
-        provider.getRepos(GENYMOBILE).enqueue(this);
+        provider.getRepos(GENYMOBILE).enqueue(new ReposCallback());
     }
 
     @Override
@@ -50,16 +46,11 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Rep
         BusProvider.getInstance().register(this);
     }
 
-    @Override
-    public void onResponse(Response<List<Repo>> response, Retrofit retrofit) {
-        if (!response.isSuccess()) {
-            //TODO handle
-            Log.e(TAG, "Couldn't load repos");
-            return;
-        }
-        repos = response.body();
+    @Subscribe
+    @SuppressWarnings("unused")
+    public void onReposRetrieved(ReposRetrievedEvent event) {
         PullRequestsCallback callback = new PullRequestsCallback();
-        for (Repo repo : repos) {
+        for (Repo repo : event.getRepos()) {
             provider.getPullRequests(GENYMOBILE, repo.getName()).enqueue(callback);
         }
     }
@@ -68,12 +59,6 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Rep
     @SuppressWarnings("unused")
     public void onPullRequestsRetrieved(PullRequestsRetrievedEvent event) {
         Log.d(TAG, "onPullRequestsRetrieved(): " + "event = [" + event + "]");
-    }
-
-    @Override
-    public void onFailure(Throwable t) {
-        Log.e(TAG, "Couldn't load repos", t);
-        //TODO handle
     }
 
     @Override
