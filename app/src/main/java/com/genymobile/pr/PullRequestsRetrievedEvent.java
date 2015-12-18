@@ -18,7 +18,7 @@ public class PullRequestsRetrievedEvent {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (PullRequest pr : pullRequests) {
-            sb.append(pr.getTitle());
+            sb.append(pr.getHead().getRepo().getFullName() + " " + pr.getTitle());
             sb.append("\n");
         }
         return sb.toString();
