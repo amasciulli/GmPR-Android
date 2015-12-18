@@ -1,4 +1,4 @@
-package com.genymobile.pr;
+package com.genymobile.pr.model;
 
 import com.google.gson.annotations.SerializedName;
 

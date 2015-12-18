@@ -1,4 +1,4 @@
-package com.genymobile.pr;
+package com.genymobile.pr.ui;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -6,6 +6,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
+
+import com.genymobile.pr.net.GitHubProvider;
+import com.genymobile.pr.net.PullRequestsCallback;
+import com.genymobile.pr.R;
+import com.genymobile.pr.model.Repo;
+import com.genymobile.pr.bus.BusProvider;
+import com.genymobile.pr.bus.PullRequestsRetrievedEvent;
 import com.squareup.otto.Subscribe;
 import retrofit.Callback;
 import retrofit.Response;

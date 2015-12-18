@@ -1,4 +1,4 @@
-package com.genymobile.pr;
+package com.genymobile.pr.model;
 
 public class PullRequest {
     private String title;
