@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class MainActivity extends AppCompatActivity implements Callback<List<Repo>> {
+public class MainActivity extends AppCompatActivity implements Callback<List<Repo>>,ItemClickListener<Repo> {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private RepoListAdapter adapter;
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Rep
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new RepoListAdapter();
+        adapter.setItemClickListener(this);
         recycler.setAdapter(adapter);
 
         new GitHubProvider().getRepos("Genymobile").enqueue(this);
@@ -45,5 +47,10 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Rep
     public void onFailure(Throwable t) {
         Log.e(TAG, "Couldn't load repos", t);
         //TODO handle
+    }
+
+    @Override
+    public void onClick(Repo item, int position) {
+        Toast.makeText(this, item.getName() + " clicked", Toast.LENGTH_SHORT).show();
     }
 }

@@ -11,6 +11,7 @@ import java.util.List;
 
 public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHolder> {
     private List<Repo> repos = new ArrayList<>();
+    private ItemClickListener<Repo> itemClickListener;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -20,9 +21,17 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Repo repo = repos.get(position);
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        final Repo repo = repos.get(position);
         holder.nameView.setText(repo.getName());
+        if (itemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.onClick(repo, position);
+                }
+            });
+        }
     }
 
     @Override
@@ -35,7 +44,11 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    public void setItemClickListener(ItemClickListener<Repo> listener) {
+        itemClickListener = listener;
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView nameView;
 
         public ViewHolder(View itemView) {
