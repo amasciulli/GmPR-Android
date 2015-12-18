@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Rep
     private static final String GENYMOBILE = "Genymobile";
 
     private RepoListAdapter adapter;
+
+    private GitHubProvider provider = new GitHubProvider();
     private List<Repo> repos;
 
     @Override
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Rep
         adapter.setItemClickListener(this);
         recycler.setAdapter(adapter);
 
-        new GitHubProvider().getRepos(GENYMOBILE).enqueue(this);
+        provider.getRepos(GENYMOBILE).enqueue(this);
     }
 
     @Override
@@ -50,14 +52,14 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Rep
         }
         repos = response.body();
         for (Repo repo : repos) {
-            new GitHubProvider().getPullrequest(GENYMOBILE, repo.getName()).enqueue(new PullRequestsCallback());
+            provider.getPullrequests(GENYMOBILE, repo.getName()).enqueue(new PullRequestsCallback());
         }
     }
 
     @Subscribe
+    @SuppressWarnings("unused")
     public void onPullRequestsRetrieved(PullRequestsRetrievedEvent event) {
         Log.d(TAG, "onPullRequestsRetrieved(): " + "event = [" + event + "]");
-
     }
 
     @Override
