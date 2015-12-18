@@ -23,7 +23,7 @@ public class GitHubProvider {
         return api.getRepos(organization);
     }
 
-    public Call<List<PullRequest>> getPullrequests(String owner, String repo) {
+    public Call<List<PullRequest>> getPullRequests(String owner, String repo) {
         return api.getPullRequests(owner, repo);
     }
 }

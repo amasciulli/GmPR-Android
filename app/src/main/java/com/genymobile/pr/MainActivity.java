@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Rep
         }
         repos = response.body();
         for (Repo repo : repos) {
-            provider.getPullrequests(GENYMOBILE, repo.getName()).enqueue(new PullRequestsCallback());
+            provider.getPullRequests(GENYMOBILE, repo.getName()).enqueue(new PullRequestsCallback());
         }
     }
 
