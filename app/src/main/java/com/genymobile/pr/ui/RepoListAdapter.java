@@ -56,8 +56,16 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
         holder.nameView.setText(repo.getName());
     }
 
-    private void bindPullRequestViewHolder(PullRequestViewHolder holder, PullRequest pullRequest) {
+    private void bindPullRequestViewHolder(PullRequestViewHolder holder, final PullRequest pullRequest) {
         holder.titleView.setText(pullRequest.getTitle());
+        if (itemClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.onClick(pullRequest);
+                }
+            });
+        }
     }
 
     @Override
@@ -73,7 +81,7 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
         int previousCount = getItemCount();
         list.add(repo);
         list.addAll(pullRequests);
-        notifyItemRangeInserted(previousCount - 1, pullRequests.size() + 1);
+        notifyItemRangeInserted(previousCount, pullRequests.size() + 1);
     }
 
     @Override

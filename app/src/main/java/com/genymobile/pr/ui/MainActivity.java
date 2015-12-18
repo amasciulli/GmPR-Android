@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     }
 
     @Override
-    public void onClick(PullRequest pullRequest, int position) {
+    public void onClick(PullRequest pullRequest) {
         Toast.makeText(this, pullRequest.getTitle() + " clicked", Toast.LENGTH_SHORT).show();
     }
 
