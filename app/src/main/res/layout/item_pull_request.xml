@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/name"
+    android:id="@+id/title"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/selectableItemBackground"
     android:ellipsize="end"
-    android:textStyle="bold"
     android:gravity="center_vertical"
     android:minHeight="48dp"
     android:paddingEnd="16dp"
