@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.genymobile.pr.bus.ReposRetrievedEvent;
+import com.genymobile.pr.model.PullRequest;
 import com.genymobile.pr.net.ReposCallback;
 import com.genymobile.pr.net.GitHubProvider;
 import com.genymobile.pr.net.PullRequestsCallback;
@@ -17,13 +17,16 @@ import com.genymobile.pr.bus.BusProvider;
 import com.genymobile.pr.bus.PullRequestsRetrievedEvent;
 import com.squareup.otto.Subscribe;
 
-public class MainActivity extends AppCompatActivity implements ItemClickListener<Repo> {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements ItemClickListener<PullRequest> {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String GENYMOBILE = "Genymobile";
 
     private RepoListAdapter adapter;
 
     private GitHubProvider provider = new GitHubProvider();
+    private List<Repo> repos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +53,8 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     @SuppressWarnings("unused")
     public void onReposRetrieved(ReposRetrievedEvent event) {
         PullRequestsCallback callback = new PullRequestsCallback();
-        for (Repo repo : event.getRepos()) {
+        repos = event.getRepos();
+        for (Repo repo : repos) {
             provider.getPullRequests(GENYMOBILE, repo.getName()).enqueue(callback);
         }
     }
@@ -58,12 +62,16 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     @Subscribe
     @SuppressWarnings("unused")
     public void onPullRequestsRetrieved(PullRequestsRetrievedEvent event) {
-        Log.d(TAG, "onPullRequestsRetrieved(): " + "event = [" + event + "]");
+        List<PullRequest> pullRequests = event.getPullRequests();
+        if (pullRequests.size() > 0) {
+            Repo repo = pullRequests.get(0).getHead().getRepo();
+            adapter.addRepo(repo, pullRequests);
+        }
     }
 
     @Override
-    public void onClick(Repo item, int position) {
-        Toast.makeText(this, item.getName() + " clicked", Toast.LENGTH_SHORT).show();
+    public void onClick(PullRequest pullRequest, int position) {
+        Toast.makeText(this, pullRequest.getTitle() + " clicked", Toast.LENGTH_SHORT).show();
     }
 
     @Override

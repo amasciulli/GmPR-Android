@@ -7,14 +7,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.genymobile.pr.R;
+import com.genymobile.pr.model.PullRequest;
 import com.genymobile.pr.model.Repo;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHolder> {
-    private List<Repo> repos = new ArrayList<>();
-    private ItemClickListener<Repo> itemClickListener;
+    private List<Object> list = new ArrayList<>();
+    private ItemClickListener<PullRequest> itemClickListener;
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -25,30 +26,37 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final Repo repo = repos.get(position);
-        holder.nameView.setText(repo.getName());
-        if (itemClickListener != null) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    itemClickListener.onClick(repo, position);
-                }
-            });
+        final Object item = list.get(position);
+        if (item instanceof Repo) {
+            holder.nameView.setText(((Repo) item).getName());
+        } else {
+            holder.nameView.setText(((PullRequest) item).getTitle());
+            if (itemClickListener != null) {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        itemClickListener.onClick((PullRequest) item, position);
+                    }
+                });
+            }
         }
+
     }
 
     @Override
     public int getItemCount() {
-        return repos.size();
+        return list.size();
     }
 
-    public void setRepos(List<Repo> repos) {
-        this.repos.addAll(repos);
-        notifyDataSetChanged();
-    }
-
-    public void setItemClickListener(ItemClickListener<Repo> listener) {
+    public void setItemClickListener(ItemClickListener<PullRequest> listener) {
         itemClickListener = listener;
+    }
+
+    public void addRepo(Repo repo, List<PullRequest> pullRequests) {
+        int previousCount = getItemCount();
+        list.add(repo);
+        list.addAll(pullRequests);
+        notifyItemRangeInserted(previousCount - 1, pullRequests.size() + 1);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
