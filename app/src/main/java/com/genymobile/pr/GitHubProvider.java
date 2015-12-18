@@ -1,10 +1,10 @@
 package com.genymobile.pr;
 
-import java.util.List;
-
 import retrofit.Call;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
+
+import java.util.List;
 
 public class GitHubProvider {
 
@@ -21,5 +21,9 @@ public class GitHubProvider {
 
     public Call<List<Repo>> getRepos(String organization) {
         return api.getRepos(organization);
+    }
+
+    public Call<List<PullRequest>> getPullrequest(String owner, String repo) {
+        return api.getPullRequests(owner, repo);
     }
 }

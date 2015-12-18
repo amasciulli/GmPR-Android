@@ -1,22 +1,24 @@
 package com.genymobile.pr;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
-
-import java.util.List;
-
+import com.squareup.otto.Subscribe;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
 
-public class MainActivity extends AppCompatActivity implements Callback<List<Repo>>,ItemClickListener<Repo> {
+import java.util.List;
+
+public class MainActivity extends AppCompatActivity implements Callback<List<Repo>>, ItemClickListener<Repo> {
     private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String GENYMOBILE = "Genymobile";
 
     private RepoListAdapter adapter;
+    private List<Repo> repos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +32,13 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Rep
         adapter.setItemClickListener(this);
         recycler.setAdapter(adapter);
 
-        new GitHubProvider().getRepos("Genymobile").enqueue(this);
+        new GitHubProvider().getRepos(GENYMOBILE).enqueue(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
     }
 
     @Override
@@ -40,7 +48,16 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Rep
             Log.e(TAG, "Couldn't load repos");
             return;
         }
-        adapter.setRepos(response.body());
+        repos = response.body();
+        for (Repo repo : repos) {
+            new GitHubProvider().getPullrequest(GENYMOBILE, repo.getName()).enqueue(new PullRequestsCallback());
+        }
+    }
+
+    @Subscribe
+    public void onPullRequestsRetrieved(PullRequestsRetrievedEvent event) {
+        Log.d(TAG, "onPullRequestsRetrieved(): " + "event = [" + event + "]");
+
     }
 
     @Override
@@ -52,5 +69,11 @@ public class MainActivity extends AppCompatActivity implements Callback<List<Rep
     @Override
     public void onClick(Repo item, int position) {
         Toast.makeText(this, item.getName() + " clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onPause() {
+        BusProvider.getInstance().unregister(this);
+        super.onPause();
     }
 }
