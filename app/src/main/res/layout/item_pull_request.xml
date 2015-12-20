@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/title"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
-    android:ellipsize="end"
     android:gravity="center_vertical"
-    android:minHeight="48dp"
+    android:minHeight="72dp"
+    android:orientation="vertical"
     android:paddingEnd="16dp"
-    android:paddingStart="16dp"
-    android:textColor="@color/gray_dark"
-    android:textSize="16sp" />
+    android:paddingStart="16dp">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textColor="@color/gray_dark"
+        android:textSize="16sp"
+        tools:text="Some heavy stuff" />
+
+    <TextView
+        android:id="@+id/body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textColor="@color/gray_light"
+        android:textSize="14sp"
+        tools:text="This is the body for this awesome pull request" />
+
+</LinearLayout>

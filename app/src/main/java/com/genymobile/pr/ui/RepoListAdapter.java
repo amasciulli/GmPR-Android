@@ -58,6 +58,7 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
 
     private void bindPullRequestViewHolder(PullRequestViewHolder holder, final PullRequest pullRequest) {
         holder.titleView.setText(pullRequest.getTitle());
+        holder.bodyView.setText(pullRequest.getBody());
         if (itemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -106,10 +107,12 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
 
     class PullRequestViewHolder extends ViewHolder {
         private final TextView titleView;
+        private final TextView bodyView;
 
         public PullRequestViewHolder(View itemView) {
             super(itemView);
             titleView = (TextView) itemView.findViewById(R.id.title);
+            bodyView = (TextView) itemView.findViewById(R.id.body);
         }
     }
 }

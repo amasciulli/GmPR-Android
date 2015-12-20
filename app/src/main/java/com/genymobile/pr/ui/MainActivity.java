@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
 
     private RepoListAdapter adapter;
 
-    private GitHubProvider provider = new GitHubProvider();
+    private GitHubProvider provider = new GitHubProvider("******", "******");
     private List<Repo> repos;
 
     @Override
