@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">GmPR</string>
+    <string name="no_description_provided">No description provided. Not cool.</string>
 </resources>

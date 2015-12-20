@@ -1,5 +1,6 @@
 package com.genymobile.pr.ui;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,7 +59,14 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
 
     private void bindPullRequestViewHolder(PullRequestViewHolder holder, final PullRequest pullRequest) {
         holder.titleView.setText(pullRequest.getTitle());
-        holder.bodyView.setText(pullRequest.getBody());
+        String body = pullRequest.getBody();
+        if (!body.isEmpty()) {
+            holder.bodyView.setText(pullRequest.getBody());
+        } else {
+            Context context = holder.itemView.getContext();
+            holder.bodyView.setText(context.getString(R.string.no_description_provided));
+        }
+
         if (itemClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
