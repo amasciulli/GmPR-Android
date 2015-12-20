@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:minHeight="72dp"
+        android:minHeight="88dp"
         android:orientation="vertical"
         android:paddingRight="16dp">
 
@@ -38,7 +38,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:maxLines="2"
+            android:lineSpacingExtra="4dp"
             android:textColor="@color/gray_light"
             android:textSize="14sp"
             tools:text="This is the body for this awesome pull request" />
