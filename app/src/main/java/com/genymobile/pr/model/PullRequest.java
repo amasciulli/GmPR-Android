@@ -4,6 +4,7 @@ public class PullRequest {
     private String title;
     private Head head;
     private String body;
+    private User user;
 
     public String getTitle() {
         return title;
@@ -15,5 +16,9 @@ public class PullRequest {
 
     public String getBody() {
         return body;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.genymobile.pr.R;
 import com.genymobile.pr.model.PullRequest;
 import com.genymobile.pr.model.Repo;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,12 +60,16 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
     }
 
     private void bindPullRequestViewHolder(PullRequestViewHolder holder, final PullRequest pullRequest) {
+        Context context = holder.itemView.getContext();
         holder.titleView.setText(pullRequest.getTitle());
+
+        holder.avatarView.setImageDrawable(null);
+        Picasso.with(context).load(pullRequest.getUser().getAvatarUrl()).into(holder.avatarView);
+
         String body = pullRequest.getBody();
         if (!body.isEmpty()) {
             holder.bodyView.setText(pullRequest.getBody());
         } else {
-            Context context = holder.itemView.getContext();
             holder.bodyView.setText(context.getString(R.string.no_description_provided));
         }
 
@@ -116,11 +122,13 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
     class PullRequestViewHolder extends ViewHolder {
         private final TextView titleView;
         private final TextView bodyView;
+        private final ImageView avatarView;
 
         public PullRequestViewHolder(View itemView) {
             super(itemView);
             titleView = (TextView) itemView.findViewById(R.id.title);
             bodyView = (TextView) itemView.findViewById(R.id.body);
+            avatarView = (ImageView) itemView.findViewById(R.id.avatar);
         }
     }
 }
