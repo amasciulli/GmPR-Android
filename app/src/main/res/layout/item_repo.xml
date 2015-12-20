@@ -5,9 +5,10 @@
     android:layout_height="match_parent"
     android:background="?attr/selectableItemBackground"
     android:ellipsize="end"
-    android:textStyle="bold"
     android:gravity="center_vertical"
     android:minHeight="48dp"
+    android:fontFamily="sans-serif-medium"
     android:paddingEnd="16dp"
     android:paddingStart="16dp"
-    android:textSize="16sp" />
+    android:textColor="@color/green"
+    android:textSize="14sp" />

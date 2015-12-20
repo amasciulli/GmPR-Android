@@ -9,4 +9,5 @@
     android:minHeight="48dp"
     android:paddingEnd="16dp"
     android:paddingStart="16dp"
+    android:textColor="@color/gray_dark"
     android:textSize="16sp" />
