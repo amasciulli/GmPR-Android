@@ -12,6 +12,7 @@ import com.genymobile.pr.R;
 import com.genymobile.pr.model.PullRequest;
 import com.genymobile.pr.model.Repo;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
 
     private List<Object> list = new ArrayList<>();
     private ItemClickListener<PullRequest> itemClickListener;
+    private Transformation circleTransformation = new CircleTransformation();
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -64,7 +66,10 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
         holder.titleView.setText(pullRequest.getTitle());
 
         holder.avatarView.setImageDrawable(null);
-        Picasso.with(context).load(pullRequest.getUser().getAvatarUrl()).into(holder.avatarView);
+        Picasso.with(context)
+                .load(pullRequest.getUser().getAvatarUrl())
+                .transform(circleTransformation)
+                .into(holder.avatarView);
 
         String body = pullRequest.getBody();
         if (!body.isEmpty()) {
