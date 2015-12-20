@@ -2,4 +2,5 @@
     <string name="app_name">GmPR</string>
     <string name="no_description_provided">No description provided. Not cool.</string>
     <string name="description_avatar">Avatar</string>
+    <string name="pr_login_body">%1$s \u2014 %2$s</string>
 </resources>

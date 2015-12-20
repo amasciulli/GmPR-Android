@@ -2,6 +2,7 @@ package com.genymobile.pr.ui;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import java.util.List;
 public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHolder> {
     private static final int TYPE_REPO = 0;
     private static final int TYPE_PULL_REQUEST = 1;
+    private static final String FORMAT_TAG_LOGIN_START = "<font color=#333333>";
+    private static final String FORMAT_TAG_LOGIN_END = "</font>";
 
     private List<Object> list = new ArrayList<>();
     private ItemClickListener<PullRequest> pullRequestClickListener;
@@ -82,11 +85,12 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
                 .into(holder.avatarView);
 
         String body = pullRequest.getBody();
-        if (!body.isEmpty()) {
-            holder.bodyView.setText(pullRequest.getBody());
-        } else {
-            holder.bodyView.setText(context.getString(R.string.no_description_provided));
+        String login = formatLogin(pullRequest.getUser().getLogin());
+        if (body.isEmpty()) {
+            body = context.getString(R.string.no_description_provided);
         }
+        holder.bodyView.setText(Html.fromHtml(context.getString(R.string.pr_login_body, login, body)));
+
 
         if (pullRequestClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +100,10 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
                 }
             });
         }
+    }
+
+    private String formatLogin(String login) {
+        return FORMAT_TAG_LOGIN_START + login + FORMAT_TAG_LOGIN_END;
     }
 
     @Override
