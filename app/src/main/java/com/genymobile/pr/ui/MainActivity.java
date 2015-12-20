@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import com.genymobile.pr.bus.ReposRetrievedEvent;
 import com.genymobile.pr.model.PullRequest;
@@ -21,7 +20,7 @@ import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ItemClickListener<PullRequest> {
+public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String GENYMOBILE = "Genymobile";
 
@@ -39,7 +38,18 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new RepoListAdapter();
-        adapter.setItemClickListener(this);
+        adapter.setPullRequestClickListener(new ItemClickListener<PullRequest>() {
+            @Override
+            public void onClick(PullRequest pullRequest) {
+                openPullRequest(pullRequest);
+            }
+        });
+        adapter.setRepoClickListener(new ItemClickListener<Repo>() {
+            @Override
+            public void onClick(Repo repo) {
+                openRepo(repo);
+            }
+        });
         recycler.setAdapter(adapter);
 
         provider.getRepos(GENYMOBILE).enqueue(new ReposCallback());
@@ -71,10 +81,15 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         }
     }
 
-    @Override
-    public void onClick(PullRequest pullRequest) {
+    public void openPullRequest(PullRequest pullRequest) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(pullRequest.getHtmlUrl()));
+        startActivity(intent);
+    }
+
+    public void openRepo(Repo repo) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(repo.getHtmlUrl()));
         startActivity(intent);
     }
 

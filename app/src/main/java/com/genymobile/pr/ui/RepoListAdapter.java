@@ -22,7 +22,8 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
     private static final int TYPE_PULL_REQUEST = 1;
 
     private List<Object> list = new ArrayList<>();
-    private ItemClickListener<PullRequest> itemClickListener;
+    private ItemClickListener<PullRequest> pullRequestClickListener;
+    private ItemClickListener<Repo> repoClickListener;
     private Transformation circleTransformation = new CircleTransformation();
 
     @Override
@@ -57,8 +58,17 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
         }
     }
 
-    private void bindRepoViewHolder(RepoViewHolder holder, Repo repo) {
+    private void bindRepoViewHolder(RepoViewHolder holder, final Repo repo) {
         holder.nameView.setText(repo.getName());
+
+        if (repoClickListener != null) {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    repoClickListener.onClick(repo);
+                }
+            });
+        }
     }
 
     private void bindPullRequestViewHolder(PullRequestViewHolder holder, final PullRequest pullRequest) {
@@ -78,11 +88,11 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
             holder.bodyView.setText(context.getString(R.string.no_description_provided));
         }
 
-        if (itemClickListener != null) {
+        if (pullRequestClickListener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    itemClickListener.onClick(pullRequest);
+                    pullRequestClickListener.onClick(pullRequest);
                 }
             });
         }
@@ -93,8 +103,12 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
         return list.size();
     }
 
-    public void setItemClickListener(ItemClickListener<PullRequest> listener) {
-        itemClickListener = listener;
+    public void setPullRequestClickListener(ItemClickListener<PullRequest> listener) {
+        pullRequestClickListener = listener;
+    }
+
+    public void setRepoClickListener(ItemClickListener<Repo> listener) {
+        repoClickListener = listener;
     }
 
     public void addRepo(Repo repo, List<PullRequest> pullRequests) {
