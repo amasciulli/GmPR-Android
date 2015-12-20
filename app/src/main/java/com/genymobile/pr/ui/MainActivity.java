@@ -1,5 +1,7 @@
 package com.genymobile.pr.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -71,7 +73,9 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
 
     @Override
     public void onClick(PullRequest pullRequest) {
-        Toast.makeText(this, pullRequest.getTitle() + " clicked", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(pullRequest.getHtmlUrl()));
+        startActivity(intent);
     }
 
     @Override
