@@ -4,4 +4,6 @@
     <color name="green_dark">#60AE5A</color>
     <color name="gray_dark">#333333</color>
     <color name="gray_light">#7D7D7D</color>
+    <color name="gray_lighter">#EEEEEE</color>
+    <color name="gray_background">#FAFAFA</color>
 </resources>

@@ -1,14 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/name"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="?attr/selectableItemBackground"
-    android:ellipsize="end"
-    android:gravity="center_vertical"
-    android:minHeight="48dp"
-    android:fontFamily="sans-serif-medium"
-    android:paddingEnd="16dp"
-    android:paddingStart="16dp"
-    android:textColor="@color/green"
-    android:textSize="14sp" />
+    android:minHeight="48dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="top"
+        android:background="@color/gray_lighter" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/green"
+        android:textSize="14sp"
+        tools:text="GmPR-Android" />
+</FrameLayout>
