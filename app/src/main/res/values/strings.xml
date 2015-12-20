@@ -3,4 +3,9 @@
     <string name="no_description_provided">No description provided. Not cool.</string>
     <string name="description_avatar">Avatar</string>
     <string name="pr_login_body">%1$s \u2014 %2$s</string>
+    <string name="pref_login">pref_login</string>
+    <string name="pref_password">pref_password</string>
+    <string name="hint_login">login</string>
+    <string name="hint_password">password</string>
+    <string name="save">Save credentials</string>
 </resources>
