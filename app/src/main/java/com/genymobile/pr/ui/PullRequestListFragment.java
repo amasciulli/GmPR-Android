@@ -28,18 +28,23 @@ import java.util.List;
 
 public class PullRequestListFragment extends Fragment {
     private static final String TAG = PullRequestListFragment.class.getSimpleName();
-    private static final String GENYMOBILE = "Genymobile";
 
     private GitHubProvider provider;
     private RepoListAdapter adapter;
+
+    private String login;
+    private String password;
+    private String organization;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String login = preferences.getString(getString(R.string.pref_login), null);
-        String password = preferences.getString(getString(R.string.pref_password), null);
+        login = preferences.getString(getString(R.string.pref_login), null);
+        password = preferences.getString(getString(R.string.pref_password), null);
+        organization = preferences.getString(getString(R.string.pref_organization), null);
+
         provider = new GitHubProvider(login, password);
     }
 
@@ -71,7 +76,7 @@ public class PullRequestListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        provider.getRepos(GENYMOBILE).enqueue(new ReposCallback());
+        provider.getRepos(organization).enqueue(new ReposCallback());
     }
 
     @Override
@@ -86,7 +91,7 @@ public class PullRequestListFragment extends Fragment {
         PullRequestsCallback callback = new PullRequestsCallback();
         List<Repo> repos = event.getRepos();
         for (Repo repo : repos) {
-            provider.getPullRequests(GENYMOBILE, repo.getName()).enqueue(callback);
+            provider.getPullRequests(organization, repo.getName()).enqueue(callback);
         }
     }
 
