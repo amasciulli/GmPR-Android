@@ -17,7 +17,7 @@
         android:id="@+id/login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/onboarding_vertical_spacing"
         android:hint="@string/hint_login" />
 
     <EditText
@@ -31,7 +31,7 @@
         android:id="@+id/save"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/onboarding_vertical_spacing"
         android:text="@string/save"
         android:textAppearance="@style/ButtonTextAppearance" />
 
