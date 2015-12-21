@@ -1,4 +1,7 @@
-package com.genymobile.pr;
+package com.genymobile.pr.net;
+
+import com.genymobile.pr.model.PullRequest;
+import com.genymobile.pr.model.Repo;
 
 import retrofit.Call;
 import retrofit.http.GET;

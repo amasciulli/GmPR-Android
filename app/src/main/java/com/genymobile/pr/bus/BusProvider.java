@@ -1,4 +1,4 @@
-package com.genymobile.pr;
+package com.genymobile.pr.bus;
 
 import com.squareup.otto.Bus;
 

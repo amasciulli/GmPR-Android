@@ -1,4 +1,4 @@
-package com.genymobile.pr;
+package com.genymobile.pr.model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -7,6 +7,8 @@ public class Repo {
 
     @SerializedName("full_name")
     private String fullName;
+    @SerializedName("html_url")
+    private String htmlUrl;
 
     public String getName() {
         return name;
@@ -14,5 +16,9 @@ public class Repo {
 
     public String getFullName() {
         return fullName;
+    }
+
+    public String getHtmlUrl() {
+        return htmlUrl;
     }
 }

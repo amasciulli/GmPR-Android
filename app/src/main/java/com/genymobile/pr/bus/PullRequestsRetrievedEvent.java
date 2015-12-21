@@ -1,10 +1,12 @@
-package com.genymobile.pr;
+package com.genymobile.pr.bus;
+
+import com.genymobile.pr.model.PullRequest;
 
 import java.util.List;
 
 public class PullRequestsRetrievedEvent {
 
-    PullRequestsRetrievedEvent(List<PullRequest> pullRequests) {
+    public PullRequestsRetrievedEvent(List<PullRequest> pullRequests) {
         this.pullRequests = pullRequests;
     }
 
