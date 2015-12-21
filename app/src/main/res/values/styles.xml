@@ -3,7 +3,12 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_dark</item>
+        <item name="colorButtonNormal">?attr/colorPrimary</item>
         <item name="android:windowBackground">@color/gray_background</item>
+    </style>
+
+    <style name="ButtonTextAppearance" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>
