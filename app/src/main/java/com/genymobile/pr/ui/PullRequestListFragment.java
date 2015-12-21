@@ -10,6 +10,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -39,6 +42,8 @@ public class PullRequestListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         login = preferences.getString(getString(R.string.pref_login), null);
@@ -115,6 +120,24 @@ public class PullRequestListFragment extends Fragment {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse(repo.getHtmlUrl()));
         startActivity(intent);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_pr_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            openSettings();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openSettings() {
+        startActivity(new Intent(getActivity(), SettingsActivity.class));
     }
 
     @Override
