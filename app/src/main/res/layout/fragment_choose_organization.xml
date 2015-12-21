@@ -18,7 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/onboarding_vertical_spacing"
-        android:hint="@string/hint_organization" />
+        android:hint="@string/hint_organization"
+        android:inputType="textNoSuggestions" />
 
     <Button
         android:id="@+id/choose"

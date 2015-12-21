@@ -18,7 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/onboarding_vertical_spacing"
-        android:hint="@string/hint_login" />
+        android:hint="@string/hint_login"
+        android:inputType="textNoSuggestions" />
 
     <EditText
         android:id="@+id/password"
