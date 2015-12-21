@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
                 preferences.contains(getString(R.string.pref_password))) {
             fragment = new PullRequestListFragment();
         } else {
-            fragment = new UserSettingsFragment();
+            fragment = new OnboardingFragment();
         }
 
         getSupportFragmentManager().beginTransaction()
