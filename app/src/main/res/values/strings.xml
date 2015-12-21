@@ -17,4 +17,8 @@
     <string name="hint_organization">GitHub organization</string>
     <string name="choose_organization">Choose an organization to check its pull requests. This is usually the company you work for.</string>
     <string name="choose">Choose</string>
+    <string name="error_network">Couldn\'t load pull requests, please check your internet connection</string>
+    <string name="error_unauthorized">Access unauthorized, please re-check your credentials</string>
+    <string name="error_not_found">Organization not found, please re-check your organization settings</string>
+    <string name="error_unknown">An error has occurred while loading pull requests</string>
 </resources>

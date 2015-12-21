@@ -2,6 +2,7 @@ package com.genymobile.pr.ui;
 
 import com.genymobile.pr.R;
 import com.genymobile.pr.bus.BusProvider;
+import com.genymobile.pr.bus.LoadingErrorEvent;
 import com.genymobile.pr.bus.PullRequestsRetrievedEvent;
 import com.genymobile.pr.bus.ReposRetrievedEvent;
 import com.genymobile.pr.model.PullRequest;
@@ -27,6 +28,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.squareup.otto.Subscribe;
 
 import java.util.List;
@@ -41,6 +44,7 @@ public class PullRequestListFragment extends Fragment {
     private String login;
     private String password;
     private String organization;
+    private boolean loadingErrorEncoutered = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -121,6 +125,34 @@ public class PullRequestListFragment extends Fragment {
             Repo repo = pullRequests.get(0).getHead().getRepo();
             adapter.addRepo(repo, pullRequests);
         }
+    }
+
+    @Subscribe
+    @SuppressWarnings("unused")
+    public void onNetworkError(LoadingErrorEvent event) {
+        if (loadingErrorEncoutered) {
+            return;
+        }
+
+        loadingErrorEncoutered = true;
+        String message;
+        if (event.isNetworkError()) {
+            message = getString(R.string.error_network);
+        } else {
+            switch (event.getResponse().code()) {
+                case 401:
+                    message = getString(R.string.error_unauthorized);
+                    break;
+                case 404:
+                    message = getString(R.string.error_not_found);
+                    break;
+                default:
+                    message = getString(R.string.error_unknown);
+                    break;
+            }
+        }
+        // TODO use error/empty states (https://www.google.fr/design/spec/patterns/errors.html#errors-app-errors)
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
     }
 
     public void openPullRequest(PullRequest pullRequest) {
