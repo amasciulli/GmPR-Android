@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.genymobile.pr.R;
 
-public class MainActivity extends AppCompatActivity implements OnboardingFragment.Callbacks {
+public class MainActivity extends AppCompatActivity implements LoginFragment.Callbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,14 +24,14 @@ public class MainActivity extends AppCompatActivity implements OnboardingFragmen
                 preferences.contains(getString(R.string.pref_password))) {
             fragment = new PullRequestListFragment();
         } else {
-            fragment = new OnboardingFragment();
+            fragment = new LoginFragment();
         }
 
         replaceFragment(fragment);
     }
 
     @Override
-    public void onboardingComplete() {
+    public void loginComplete() {
         replaceFragment(new PullRequestListFragment());
     }
 

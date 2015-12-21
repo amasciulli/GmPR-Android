@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import com.genymobile.pr.R;
 
-public class OnboardingFragment extends Fragment {
+public class LoginFragment extends Fragment {
     private EditText loginText;
     private EditText passwordText;
     private Callbacks fragmentCallbacks;
@@ -30,7 +30,7 @@ public class OnboardingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_onboarding, container, false);
+        View root = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_login, container, false);
 
         loginText = (EditText) root.findViewById(R.id.login);
         passwordText = (EditText) root.findViewById(R.id.password);
@@ -56,10 +56,10 @@ public class OnboardingFragment extends Fragment {
     }
 
     private void showPullRequests() {
-        fragmentCallbacks.onboardingComplete();
+        fragmentCallbacks.loginComplete();
     }
 
     interface Callbacks {
-        void onboardingComplete();
+        void loginComplete();
     }
 }
