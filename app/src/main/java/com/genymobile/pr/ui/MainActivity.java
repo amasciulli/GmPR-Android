@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity implements OnboardingFragmen
         }
 
         replaceFragment(fragment);
-
     }
 
     @Override
