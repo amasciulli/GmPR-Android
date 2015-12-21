@@ -11,7 +11,7 @@ import android.view.MenuItem;
 
 import com.genymobile.pr.R;
 
-public class MainActivity extends AppCompatActivity implements LoginFragment.Callbacks {
+public class MainActivity extends AppCompatActivity implements LoginFragment.Callbacks, ChooseOrganizationFragment.Callbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,18 +20,30 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Cal
 
         Fragment fragment;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (preferences.contains(getString(R.string.pref_login)) &&
-                preferences.contains(getString(R.string.pref_password))) {
-            fragment = new PullRequestListFragment();
+
+        boolean credentialsSet = preferences.contains(getString(R.string.pref_login)) &&
+                preferences.contains(getString(R.string.pref_password));
+        boolean organizationSet = preferences.contains(getString(R.string.pref_organization));
+
+        if (credentialsSet) {
+            if (organizationSet) {
+                fragment = new PullRequestListFragment();
+            } else {
+                fragment = new ChooseOrganizationFragment();
+            }
         } else {
             fragment = new LoginFragment();
         }
-
         replaceFragment(fragment);
     }
 
     @Override
-    public void loginComplete() {
+    public void onLoginComplete() {
+        replaceFragment(new ChooseOrganizationFragment());
+    }
+
+    @Override
+    public void onOrganzationChosen() {
         replaceFragment(new PullRequestListFragment());
     }
 
