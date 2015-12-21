@@ -39,20 +39,23 @@ public class OnboardingFragment extends Fragment {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveCredentialsAndShowPullRequests();
+                saveCredentials();
+                showPullRequests();
             }
         });
 
         return root;
     }
 
-    private void saveCredentialsAndShowPullRequests() {
+    private void saveCredentials() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         preferences.edit()
                 .putString(getString(R.string.pref_login), loginText.getText().toString())
                 .putString(getString(R.string.pref_password), passwordText.getText().toString())
                 .commit();
+    }
 
+    private void showPullRequests() {
         fragmentCallbacks.onboardingComplete();
     }
 
