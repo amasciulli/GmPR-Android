@@ -8,4 +8,8 @@
         android:inputType="textPassword"
         android:key="@string/pref_password"
         android:title="@string/title_pref_password" />
+    <EditTextPreference
+        android:inputType="textNoSuggestions"
+        android:key="@string/pref_organization"
+        android:title="@string/title_pref_organization" />
 </PreferenceScreen>
