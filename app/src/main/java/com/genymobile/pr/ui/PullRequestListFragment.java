@@ -1,8 +1,10 @@
 package com.genymobile.pr.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,8 +30,18 @@ public class PullRequestListFragment extends Fragment {
     private static final String TAG = PullRequestListFragment.class.getSimpleName();
     private static final String GENYMOBILE = "Genymobile";
 
-    private GitHubProvider provider = new GitHubProvider("******", "******");
+    private GitHubProvider provider;
     private RepoListAdapter adapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String login = preferences.getString(getString(R.string.pref_login), null);
+        String password = preferences.getString(getString(R.string.pref_password), null);
+        provider = new GitHubProvider(login, password);
+    }
 
     @Nullable
     @Override

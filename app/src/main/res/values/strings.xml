@@ -8,4 +8,5 @@
     <string name="hint_login">login</string>
     <string name="hint_password">password</string>
     <string name="save">Save credentials</string>
+    <string name="onboarding">To start, type in your Github login and password.</string>
 </resources>

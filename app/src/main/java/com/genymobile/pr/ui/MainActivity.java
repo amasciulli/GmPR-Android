@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.genymobile.pr.R;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnboardingFragment.Callbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +21,18 @@ public class MainActivity extends AppCompatActivity {
                 preferences.contains(getString(R.string.pref_password))) {
             fragment = new PullRequestListFragment();
         } else {
-            fragment = new UserSettingsFragment();
+            fragment = new OnboardingFragment();
         }
 
+        replaceFragment(fragment);
+    }
+
+    @Override
+    public void onboardingComplete() {
+        replaceFragment(new PullRequestListFragment());
+    }
+
+    private void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, fragment)
                 .commit();
