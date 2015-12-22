@@ -1,5 +1,9 @@
 package com.genymobile.pr.ui;
 
+import com.genymobile.pr.R;
+import com.genymobile.pr.model.PullRequest;
+import com.genymobile.pr.model.Repo;
+
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -8,10 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.genymobile.pr.R;
-import com.genymobile.pr.model.PullRequest;
-import com.genymobile.pr.model.Repo;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 
@@ -97,6 +97,13 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
                 @Override
                 public void onClick(View v) {
                     pullRequestClickListener.onClick(pullRequest);
+                }
+            });
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    pullRequestClickListener.onLongClick(pullRequest);
+                    return true;
                 }
             });
         }
