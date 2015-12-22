@@ -1,10 +1,10 @@
 package com.genymobile.pr.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Issue {
-    private List<Label> labels = new ArrayList<>();
+    @SuppressWarnings("unused")
+    private List<Label> labels;
 
     public List<Label> getLabels() {
         return labels;
