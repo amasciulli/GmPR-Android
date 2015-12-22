@@ -27,10 +27,10 @@ public class PullRequestDetailsDialogFragment extends DialogFragment {
     private static final String NUMBER = "number";
     private static final String REPO = "repo";
     private static final int DEFAULT_SPACING = 10;
-    int number;
+    private int number;
     String repo;
 
-    static PullRequestDetailsDialogFragment newInstance(int pullRequestNumber, String repo) {
+    public static PullRequestDetailsDialogFragment newInstance(int pullRequestNumber, String repo) {
         PullRequestDetailsDialogFragment pullRequestDetailsDialogFragment = new PullRequestDetailsDialogFragment();
         Bundle args = new Bundle();
         args.putInt(NUMBER, pullRequestNumber);
