@@ -29,6 +29,7 @@ public class PullRequestDetailsDialogFragment extends DialogFragment {
     private static final int DEFAULT_SPACING = 10;
     private int number;
     private String repo;
+    private String organization;
 
     public static PullRequestDetailsDialogFragment newInstance(int pullRequestNumber, String repo) {
         PullRequestDetailsDialogFragment pullRequestDetailsDialogFragment = new PullRequestDetailsDialogFragment();
@@ -46,6 +47,8 @@ public class PullRequestDetailsDialogFragment extends DialogFragment {
         BusProvider.getInstance().register(this);
         number = getArguments().getInt(ARG_NUMBER);
         repo = getArguments().getString(ARG_REPO);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        organization = preferences.getString(getString(R.string.pref_organization), null);
 
         getIssue();
     }
@@ -55,7 +58,7 @@ public class PullRequestDetailsDialogFragment extends DialogFragment {
         String login = preferences.getString(getString(R.string.pref_login), null);
         String password = preferences.getString(getString(R.string.pref_password), null);
         GitHubProvider provider = new GitHubProvider(login, password);
-        provider.getIssue("Genymobile", repo, number).enqueue(new IssueCallback());  //TODO owner will be in pref in a future PR
+        provider.getIssue(organization, repo, number).enqueue(new IssueCallback());
     }
 
     @Subscribe
