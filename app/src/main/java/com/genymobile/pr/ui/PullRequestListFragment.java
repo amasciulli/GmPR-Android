@@ -61,7 +61,7 @@ public class PullRequestListFragment extends Fragment {
 
             @Override
             public void onLongClick(PullRequest pullRequest) {
-                showPullRequestDetails(pullRequest);
+                showPullRequestDetailsDialog(pullRequest);
             }
         });
         adapter.setRepoClickListener(new ItemClickListener<Repo>() {
@@ -124,17 +124,19 @@ public class PullRequestListFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void showPullRequestDetails(PullRequest pullRequest) {
+    private void showPullRequestDetailsDialog(PullRequest pullRequest) {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        Fragment prev = getFragmentManager().findFragmentByTag(PULL_REQUEST_DETAILS_DIALOG_TAG);
-        if (prev != null) {
-            fragmentTransaction.remove(prev);
+        Fragment previousFragment = getFragmentManager().findFragmentByTag(PULL_REQUEST_DETAILS_DIALOG_TAG);
+        if (previousFragment != null) {
+            fragmentTransaction.remove(previousFragment);
         }
         fragmentTransaction.addToBackStack(null);
 
-        if (pullRequest.getHead() != null && pullRequest.getHead().getRepo() != null) { //TODO see why a repo can be null
-            DialogFragment newFragment = PullRequestDetailsDialogFragment.newInstance(pullRequest.getNumber(), pullRequest.getHead().getRepo().getName());
-            newFragment.show(fragmentTransaction, PULL_REQUEST_DETAILS_DIALOG_TAG);
+        if (pullRequest.getHead() != null
+                && pullRequest.getHead().getRepo() != null) { //TODO see why a repo can be null
+            DialogFragment pullRequestDetailsDialogFragment =
+                    PullRequestDetailsDialogFragment.newInstance(pullRequest.getNumber(), pullRequest.getHead().getRepo().getName());
+            pullRequestDetailsDialogFragment.show(fragmentTransaction, PULL_REQUEST_DETAILS_DIALOG_TAG);
         }
     }
 
