@@ -54,10 +54,10 @@ public class ChooseOrganizationFragment extends Fragment {
     }
 
     private void showPullRequests() {
-        fragmentCallbacks.onOrganzationChosen();
+        fragmentCallbacks.onOrganizationChosen();
     }
 
     interface Callbacks {
-        void onOrganzationChosen();
+        void onOrganizationChosen();
     }
 }
