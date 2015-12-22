@@ -1,5 +1,6 @@
 package com.genymobile.pr.net;
 
+import com.genymobile.pr.model.Issue;
 import com.genymobile.pr.model.PullRequest;
 import com.genymobile.pr.model.Repo;
 
@@ -15,4 +16,8 @@ public interface GitHubApi {
 
     @GET("/repos/{owner}/{repo}/pulls")
     Call<List<PullRequest>> getPullRequests(@Path("owner") String owner, @Path("repo")String repo);
+
+    @GET("/repos/{owner}/{repo}/issues/{number}")
+    Call<Issue> getIssue(@Path("owner") String owner, @Path("repo") String repo, @Path("number") int number);
+
 }

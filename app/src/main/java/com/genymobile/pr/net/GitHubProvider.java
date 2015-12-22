@@ -1,14 +1,14 @@
 package com.genymobile.pr.net;
 
-import android.util.Base64;
-
+import com.genymobile.pr.model.Issue;
 import com.genymobile.pr.model.PullRequest;
 import com.genymobile.pr.model.Repo;
+
+import android.util.Base64;
 import com.squareup.okhttp.Interceptor;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-
 import retrofit.Call;
 import retrofit.GsonConverterFactory;
 import retrofit.Retrofit;
@@ -34,6 +34,10 @@ public class GitHubProvider {
 
     public Call<List<PullRequest>> getPullRequests(String owner, String repo) {
         return api.getPullRequests(owner, repo);
+    }
+
+    public Call<Issue> getIssue(String owner, String repo, int number) {
+     return api.getIssue(owner, repo, number);
     }
 
     private <T> T createApi(Class<T> apiClass, String username, String password) {
