@@ -28,7 +28,7 @@ public class PullRequestDetailsDialogFragment extends DialogFragment {
     private static final String ARG_REPO = "repo";
     private static final int DEFAULT_SPACING = 10;
     private int number;
-    String repo;
+    private String repo;
 
     public static PullRequestDetailsDialogFragment newInstance(int pullRequestNumber, String repo) {
         PullRequestDetailsDialogFragment pullRequestDetailsDialogFragment = new PullRequestDetailsDialogFragment();
