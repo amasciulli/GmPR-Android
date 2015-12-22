@@ -30,6 +30,7 @@ import java.util.List;
 
 public class PullRequestListFragment extends Fragment {
     private static final String GENYMOBILE = "Genymobile";
+    private static final String PULL_REQUEST_DETAILS_DIALOG_TAG = "pull-request-details-dialog-tag";
 
     private GitHubProvider provider;
     private RepoListAdapter adapter;
@@ -125,7 +126,7 @@ public class PullRequestListFragment extends Fragment {
 
     private void showPullRequestDetails(PullRequest pullRequest) {
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        Fragment prev = getFragmentManager().findFragmentByTag("dialog");
+        Fragment prev = getFragmentManager().findFragmentByTag(PULL_REQUEST_DETAILS_DIALOG_TAG);
         if (prev != null) {
             fragmentTransaction.remove(prev);
         }
@@ -133,7 +134,7 @@ public class PullRequestListFragment extends Fragment {
 
         if (pullRequest.getHead() != null && pullRequest.getHead().getRepo() != null) { //TODO see why a repo can be null
             DialogFragment newFragment = PullRequestDetailsDialogFragment.newInstance(pullRequest.getNumber(), pullRequest.getHead().getRepo().getName());
-            newFragment.show(fragmentTransaction, "dialog");
+            newFragment.show(fragmentTransaction, PULL_REQUEST_DETAILS_DIALOG_TAG);
         }
     }
 
