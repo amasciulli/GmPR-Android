@@ -9,6 +9,7 @@ public class PullRequest {
     private User user;
     @SerializedName("html_url")
     private String htmlUrl;
+    private int number;
 
     public String getTitle() {
         return title;
@@ -28,5 +29,9 @@ public class PullRequest {
 
     public String getHtmlUrl() {
         return htmlUrl;
+    }
+
+    public int getNumber() {
+        return number;
     }
 }
