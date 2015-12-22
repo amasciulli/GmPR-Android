@@ -21,7 +21,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ import com.squareup.otto.Subscribe;
 import java.util.List;
 
 public class PullRequestListFragment extends Fragment {
-    private static final String TAG = PullRequestListFragment.class.getSimpleName();
     private static final String GENYMOBILE = "Genymobile";
 
     private GitHubProvider provider;
@@ -126,8 +124,6 @@ public class PullRequestListFragment extends Fragment {
     }
 
     private void showPullRequestDetails(PullRequest pullRequest) {
-        Log.d(TAG, "showPullRequestDetails(): " + "pullRequest = [" + pullRequest.getTitle() + "]");
-
         FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag("dialog");
         if (prev != null) {
