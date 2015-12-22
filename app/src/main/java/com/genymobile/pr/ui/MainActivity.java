@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Cal
     }
 
     @Override
-    public void onOrganzationChosen() {
+    public void onOrganizationChosen() {
         replaceFragment(new PullRequestListFragment());
     }
 
