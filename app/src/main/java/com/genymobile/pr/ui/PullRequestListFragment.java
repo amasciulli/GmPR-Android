@@ -53,6 +53,8 @@ public class PullRequestListFragment extends Fragment {
         password = preferences.getString(getString(R.string.pref_password), null);
         organization = preferences.getString(getString(R.string.pref_organization), null);
 
+        getActivity().setTitle(organization);
+
         provider = new GitHubProvider(login, password);
     }
 
