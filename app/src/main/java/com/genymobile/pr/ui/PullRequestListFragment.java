@@ -22,6 +22,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import com.squareup.otto.Subscribe;
@@ -29,19 +32,29 @@ import com.squareup.otto.Subscribe;
 import java.util.List;
 
 public class PullRequestListFragment extends Fragment {
-    private static final String GENYMOBILE = "Genymobile";
-    private static final String PULL_REQUEST_DETAILS_DIALOG_TAG = "pull-request-details-dialog-tag";
+    private static final String TAG = PullRequestListFragment.class.getSimpleName();
+    private static final String PULL_REQUEST_DETAILS_DIALOG_TAG = "pull_request_details_dialog_tag";
 
     private GitHubProvider provider;
     private RepoListAdapter adapter;
+
+    private String login;
+    private String password;
+    private String organization;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
+
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String login = preferences.getString(getString(R.string.pref_login), null);
-        String password = preferences.getString(getString(R.string.pref_password), null);
+        login = preferences.getString(getString(R.string.pref_login), null);
+        password = preferences.getString(getString(R.string.pref_password), null);
+        organization = preferences.getString(getString(R.string.pref_organization), null);
+
+        getActivity().setTitle(organization);
+
         provider = new GitHubProvider(login, password);
     }
 
@@ -83,7 +96,7 @@ public class PullRequestListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        provider.getRepos(GENYMOBILE).enqueue(new ReposCallback());
+        provider.getRepos(organization).enqueue(new ReposCallback());
     }
 
     @Override
@@ -98,7 +111,7 @@ public class PullRequestListFragment extends Fragment {
         PullRequestsCallback callback = new PullRequestsCallback();
         List<Repo> repos = event.getRepos();
         for (Repo repo : repos) {
-            provider.getPullRequests(GENYMOBILE, repo.getName()).enqueue(callback);
+            provider.getPullRequests(organization, repo.getName()).enqueue(callback);
         }
     }
 
@@ -142,6 +155,24 @@ public class PullRequestListFragment extends Fragment {
                     PullRequestDetailsDialogFragment.newInstance(pullRequestNumber, repoName);
             pullRequestDetailsDialogFragment.show(fragmentTransaction, PULL_REQUEST_DETAILS_DIALOG_TAG);
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_pr_list, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            openSettings();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void openSettings() {
+        startActivity(new Intent(getActivity(), SettingsActivity.class));
     }
 
     @Override

@@ -10,29 +10,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/onboarding"
+        android:text="@string/choose_organization"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
     <EditText
-        android:id="@+id/login"
+        android:id="@+id/organization"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/onboarding_vertical_spacing"
-        android:hint="@string/hint_login" />
-
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_password"
-        android:inputType="textPassword" />
+        android:hint="@string/hint_organization"
+        android:inputType="textNoSuggestions" />
 
     <Button
-        android:id="@+id/save"
+        android:id="@+id/choose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/onboarding_vertical_spacing"
-        android:text="@string/save"
+        android:text="@string/choose"
         android:textAppearance="@style/ButtonTextAppearance" />
 
 </LinearLayout>

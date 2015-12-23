@@ -13,13 +13,13 @@ import android.widget.EditText;
 
 import com.genymobile.pr.R;
 
-public class OnboardingFragment extends Fragment {
-    private EditText loginText;
-    private EditText passwordText;
+public class ChooseOrganizationFragment extends Fragment {
     private Callbacks fragmentCallbacks;
+    private EditText organizationText;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
         if (!(getActivity() instanceof Callbacks)) {
             throw new IllegalStateException("Parent activity must implement " + Callbacks.class.getName());
@@ -30,16 +30,15 @@ public class OnboardingFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_onboarding, container, false);
+        View root = inflater.inflate(R.layout.fragment_choose_organization, container, false);
 
-        loginText = (EditText) root.findViewById(R.id.login);
-        passwordText = (EditText) root.findViewById(R.id.password);
+        organizationText = (EditText) root.findViewById(R.id.organization);
 
-        Button saveButton = (Button) root.findViewById(R.id.save);
-        saveButton.setOnClickListener(new View.OnClickListener() {
+        Button chooseButton = (Button) root.findViewById(R.id.choose);
+        chooseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveCredentials();
+                saveOrganization();
                 showPullRequests();
             }
         });
@@ -47,19 +46,18 @@ public class OnboardingFragment extends Fragment {
         return root;
     }
 
-    private void saveCredentials() {
+    private void saveOrganization() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         preferences.edit()
-                .putString(getString(R.string.pref_login), loginText.getText().toString())
-                .putString(getString(R.string.pref_password), passwordText.getText().toString())
+                .putString(getString(R.string.pref_organization), organizationText.getText().toString())
                 .commit();
     }
 
     private void showPullRequests() {
-        fragmentCallbacks.onboardingComplete();
+        fragmentCallbacks.onOrganizationChosen();
     }
 
     interface Callbacks {
-        void onboardingComplete();
+        void onOrganizationChosen();
     }
 }

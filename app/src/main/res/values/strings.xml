@@ -12,4 +12,9 @@
     <string name="title_pref_login">GitHub login</string>
     <string name="title_pref_password">GitHub password</string>
     <string name="title_settings">Settings</string>
+    <string name="pref_organization">pref_organization</string>
+    <string name="title_pref_organization">GitHub organization</string>
+    <string name="hint_organization">GitHub organization</string>
+    <string name="choose_organization">Choose an organization to check its pull requests. This is usually the company you work for.</string>
+    <string name="choose">Choose</string>
 </resources>
