@@ -27,10 +27,11 @@ import com.squareup.otto.Subscribe;
 // TODO add a loader when retrieving data.
 // TODO handle retrieving data errors
 public class PullRequestDetailsDialogFragment extends DialogFragment {
+    private static final int DEFAULT_SPACING_PX = 5;
     private static final String ARG_TITLE = "title";
     private static final String ARG_NUMBER = "number";
     private static final String ARG_REPO = "repo";
-    private static final int DEFAULT_SPACING_PX = 5;
+
     private int number;
     private String repo;
     private String organization;
