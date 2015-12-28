@@ -93,7 +93,7 @@ public class PullRequestDetailsDialogFragment extends DialogFragment {
         }
     }
 
-    public int dpToPx(int dp) {
+    private int dpToPx(int dp) {
         DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
