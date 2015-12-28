@@ -24,18 +24,21 @@ import com.squareup.otto.Subscribe;
 // TODO add a loader when retrieving data.
 // TODO handle retrieving data errors
 public class PullRequestDetailsDialogFragment extends DialogFragment {
+    private static final String ARG_TITLE = "title";
     private static final String ARG_NUMBER = "number";
     private static final String ARG_REPO = "repo";
     private static final int DEFAULT_SPACING = 10;
     private int number;
     private String repo;
     private String organization;
+    private String title;
 
-    public static PullRequestDetailsDialogFragment newInstance(int pullRequestNumber, String repo) {
+    public static PullRequestDetailsDialogFragment newInstance(int pullRequestNumber, String repo, String title) {
         PullRequestDetailsDialogFragment pullRequestDetailsDialogFragment = new PullRequestDetailsDialogFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_NUMBER, pullRequestNumber);
         args.putString(ARG_REPO, repo);
+        args.putString(ARG_TITLE, title);
         pullRequestDetailsDialogFragment.setArguments(args);
 
         return pullRequestDetailsDialogFragment;
@@ -47,6 +50,7 @@ public class PullRequestDetailsDialogFragment extends DialogFragment {
         BusProvider.getInstance().register(this);
         number = getArguments().getInt(ARG_NUMBER);
         repo = getArguments().getString(ARG_REPO);
+        title = getArguments().getString(ARG_TITLE);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         organization = preferences.getString(getString(R.string.pref_organization), null);
 

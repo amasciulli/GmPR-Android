@@ -149,10 +149,11 @@ public class PullRequestListFragment extends Fragment {
                 && pullRequest.getHead().getRepo() != null) { //TODO see why a repo can be null
 
             String repoName = pullRequest.getHead().getRepo().getName();
+            String pullRequestTitle = pullRequest.getTitle();
             int pullRequestNumber = pullRequest.getNumber();
 
             DialogFragment pullRequestDetailsDialogFragment =
-                    PullRequestDetailsDialogFragment.newInstance(pullRequestNumber, repoName);
+                    PullRequestDetailsDialogFragment.newInstance(pullRequestNumber, repoName, pullRequestTitle);
             pullRequestDetailsDialogFragment.show(fragmentTransaction, PULL_REQUEST_DETAILS_DIALOG_TAG);
         }
     }
