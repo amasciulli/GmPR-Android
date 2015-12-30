@@ -29,6 +29,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.squareup.otto.Subscribe;
@@ -38,6 +39,9 @@ import java.util.List;
 public class PullRequestListFragment extends Fragment {
     private static final String TAG = PullRequestListFragment.class.getSimpleName();
     private static final String PULL_REQUEST_DETAILS_DIALOG_TAG = "pull_request_details_dialog_tag";
+    private static final int STATE_LOADING = 0;
+    private static final int STATE_LOADED = 1;
+    private static final int STATE_ERROR = 2;
 
     private GitHubProvider provider;
     private RepoListAdapter adapter;
@@ -46,6 +50,10 @@ public class PullRequestListFragment extends Fragment {
     private String password;
     private String organization;
     private boolean loadingOrNetworkErrorEncoutered = false;
+
+    private RecyclerView recyclerView;
+    private ProgressBar progressBar;
+    private int loadingState;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -67,8 +75,13 @@ public class PullRequestListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_pr_list, container, false);
-        RecyclerView recycler = (RecyclerView) root.findViewById(R.id.recycler);
-        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        recyclerView = (RecyclerView) root.findViewById(R.id.recycler);
+        progressBar = (ProgressBar) root.findViewById(R.id.progressbar);
+
+        setLoadingState(STATE_LOADING);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         adapter = new RepoListAdapter();
         adapter.setPullRequestClickListener(new ItemClickListener<PullRequest>() {
@@ -93,9 +106,33 @@ public class PullRequestListFragment extends Fragment {
                 // no-op
             }
         });
-        recycler.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
 
         return root;
+    }
+
+    private void setLoadingState(int newState) {
+        if (loadingState == newState) {
+            return;
+        }
+
+        switch (newState) {
+            case STATE_LOADING:
+                recyclerView.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                break;
+            case STATE_LOADED:
+                recyclerView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+                break;
+            case STATE_ERROR:
+                recyclerView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+                //TODO show error view
+            default:
+                throw new IllegalArgumentException("Unknown state");
+        }
+        loadingState = newState;
     }
 
     @Override
@@ -128,6 +165,7 @@ public class PullRequestListFragment extends Fragment {
             Repo repo = pullRequests.get(0).getHead().getRepo();
             adapter.addRepo(repo, pullRequests);
         }
+        setLoadingState(STATE_LOADED);
     }
 
     @Subscribe
@@ -153,6 +191,7 @@ public class PullRequestListFragment extends Fragment {
         }
         // TODO use error/empty states (https://www.google.fr/design/spec/patterns/errors.html#errors-app-errors)
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        setLoadingState(STATE_ERROR);
     }
 
     @Subscribe
@@ -165,6 +204,7 @@ public class PullRequestListFragment extends Fragment {
 
         // TODO use error/empty states (https://www.google.fr/design/spec/patterns/errors.html#errors-app-errors)
         Toast.makeText(getActivity(), R.string.error_network, Toast.LENGTH_LONG).show();
+        setLoadingState(STATE_ERROR);
     }
 
     public void openPullRequest(PullRequest pullRequest) {
