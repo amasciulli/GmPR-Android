@@ -6,15 +6,9 @@ import retrofit.Response;
 
 public class LoadingErrorEvent {
     private final Response response;
-    private final boolean networkError;
 
-    public LoadingErrorEvent(boolean networkError, @Nullable Response response) {
-        this.networkError = networkError;
+    public LoadingErrorEvent(@Nullable Response response) {
         this.response = response;
-    }
-
-    public boolean isNetworkError() {
-        return networkError;
     }
 
     public Response getResponse() {

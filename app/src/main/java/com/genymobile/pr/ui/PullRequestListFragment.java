@@ -3,6 +3,7 @@ package com.genymobile.pr.ui;
 import com.genymobile.pr.R;
 import com.genymobile.pr.bus.BusProvider;
 import com.genymobile.pr.bus.LoadingErrorEvent;
+import com.genymobile.pr.bus.NetworkErrorEvent;
 import com.genymobile.pr.bus.PullRequestsRetrievedEvent;
 import com.genymobile.pr.bus.ReposRetrievedEvent;
 import com.genymobile.pr.model.PullRequest;
@@ -44,7 +45,7 @@ public class PullRequestListFragment extends Fragment {
     private String login;
     private String password;
     private String organization;
-    private boolean loadingErrorEncoutered = false;
+    private boolean loadingOrNetworkErrorEncoutered = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -131,30 +132,39 @@ public class PullRequestListFragment extends Fragment {
 
     @Subscribe
     @SuppressWarnings("unused")
-    public void onNetworkError(LoadingErrorEvent event) {
-        if (loadingErrorEncoutered) {
+    public void onLoadingError(LoadingErrorEvent event) {
+        if (loadingOrNetworkErrorEncoutered) {
             return;
         }
+        loadingOrNetworkErrorEncoutered = true;
 
-        loadingErrorEncoutered = true;
         String message;
-        if (event.isNetworkError()) {
-            message = getString(R.string.error_network);
-        } else {
-            switch (event.getResponse().code()) {
-                case 401:
-                    message = getString(R.string.error_unauthorized);
-                    break;
-                case 404:
-                    message = getString(R.string.error_not_found);
-                    break;
-                default:
-                    message = getString(R.string.error_unknown);
-                    break;
-            }
+        switch (event.getResponse().code()) {
+            case 401:
+                message = getString(R.string.error_unauthorized);
+                break;
+            case 404:
+                message = getString(R.string.error_not_found);
+                break;
+            default:
+                message = getString(R.string.error_unknown);
+                break;
+
         }
         // TODO use error/empty states (https://www.google.fr/design/spec/patterns/errors.html#errors-app-errors)
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+    }
+
+    @Subscribe
+    @SuppressWarnings("unused")
+    public void onNetworkError(NetworkErrorEvent event) {
+        if (loadingOrNetworkErrorEncoutered) {
+            return;
+        }
+        loadingOrNetworkErrorEncoutered = true;
+
+        // TODO use error/empty states (https://www.google.fr/design/spec/patterns/errors.html#errors-app-errors)
+        Toast.makeText(getActivity(), R.string.error_network, Toast.LENGTH_LONG).show();
     }
 
     public void openPullRequest(PullRequest pullRequest) {
