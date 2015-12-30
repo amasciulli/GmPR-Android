@@ -29,8 +29,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.squareup.otto.Subscribe;
 
@@ -39,21 +40,24 @@ import java.util.List;
 public class PullRequestListFragment extends Fragment {
     private static final String TAG = PullRequestListFragment.class.getSimpleName();
     private static final String PULL_REQUEST_DETAILS_DIALOG_TAG = "pull_request_details_dialog_tag";
+
     private static final int STATE_LOADING = 0;
     private static final int STATE_LOADED = 1;
     private static final int STATE_ERROR = 2;
 
-    private GitHubProvider provider;
-    private RepoListAdapter adapter;
+    private SharedPreferences preferences;
 
-    private String login;
-    private String password;
     private String organization;
+    private GitHubProvider provider;
     private boolean loadingOrNetworkErrorEncoutered = false;
 
+    private RepoListAdapter adapter;
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
-    private int loadingState;
+    private View errorView;
+
+    private TextView errorTextView;
+    private int loadingState = -1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,14 +65,7 @@ public class PullRequestListFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        login = preferences.getString(getString(R.string.pref_login), null);
-        password = preferences.getString(getString(R.string.pref_password), null);
-        organization = preferences.getString(getString(R.string.pref_organization), null);
-
-        getActivity().setTitle(organization);
-
-        provider = new GitHubProvider(login, password);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Nullable
@@ -78,8 +75,17 @@ public class PullRequestListFragment extends Fragment {
 
         recyclerView = (RecyclerView) root.findViewById(R.id.recycler);
         progressBar = (ProgressBar) root.findViewById(R.id.progressbar);
+        errorView = root.findViewById(R.id.error);
+        errorTextView = (TextView) root.findViewById(R.id.error_text);
 
-        setLoadingState(STATE_LOADING);
+        Button retryButton = (Button) root.findViewById(R.id.retry);
+
+        retryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadPullRequests();
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -120,15 +126,18 @@ public class PullRequestListFragment extends Fragment {
             case STATE_LOADING:
                 recyclerView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
+                errorView.setVisibility(View.GONE);
                 break;
             case STATE_LOADED:
                 recyclerView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
+                errorView.setVisibility(View.GONE);
                 break;
             case STATE_ERROR:
-                recyclerView.setVisibility(View.VISIBLE);
+                recyclerView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
-                //TODO show error view
+                errorView.setVisibility(View.VISIBLE);
+                break;
             default:
                 throw new IllegalArgumentException("Unknown state");
         }
@@ -138,6 +147,19 @@ public class PullRequestListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        loadPullRequests();
+    }
+
+    private void loadPullRequests() {
+        String login = preferences.getString(getString(R.string.pref_login), null);
+        String password = preferences.getString(getString(R.string.pref_password), null);
+        organization = preferences.getString(getString(R.string.pref_organization), null);
+
+        getActivity().setTitle(organization);
+        provider = new GitHubProvider(login, password);
+        loadingOrNetworkErrorEncoutered = false;
+        setLoadingState(STATE_LOADING);
+
         provider.getRepos(organization).enqueue(new ReposCallback());
     }
 
@@ -190,7 +212,7 @@ public class PullRequestListFragment extends Fragment {
 
         }
         // TODO use error/empty states (https://www.google.fr/design/spec/patterns/errors.html#errors-app-errors)
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+        errorTextView.setText(message);
         setLoadingState(STATE_ERROR);
     }
 
@@ -203,7 +225,7 @@ public class PullRequestListFragment extends Fragment {
         loadingOrNetworkErrorEncoutered = true;
 
         // TODO use error/empty states (https://www.google.fr/design/spec/patterns/errors.html#errors-app-errors)
-        Toast.makeText(getActivity(), R.string.error_network, Toast.LENGTH_LONG).show();
+        errorTextView.setText(R.string.error_network);
         setLoadingState(STATE_ERROR);
     }
 
