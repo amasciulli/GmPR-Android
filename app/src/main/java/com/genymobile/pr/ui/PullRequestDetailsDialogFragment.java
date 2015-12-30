@@ -11,13 +11,14 @@ import com.genymobile.pr.net.IssueCallback;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -27,7 +28,7 @@ import com.squareup.otto.Subscribe;
 // TODO add a loader when retrieving data.
 // TODO handle retrieving data errors
 public class PullRequestDetailsDialogFragment extends DialogFragment {
-    private static final int DEFAULT_SPACING_PX = 5;
+    private static final int DEFAULT_SPACING_DP = 5;
     private static final String ARG_TITLE = "title";
     private static final String ARG_NUMBER = "number";
     private static final String ARG_REPO = "repo";
@@ -84,10 +85,10 @@ public class PullRequestDetailsDialogFragment extends DialogFragment {
     @Subscribe
     @SuppressWarnings("unused")
     public void onIssueRetrieved(IssueRetrievedEvent event) {
-        int defaultSpacing = dpToPx(DEFAULT_SPACING_PX);
+        int defaultSpacingPx = dpToPx(DEFAULT_SPACING_DP);
         LinearLayout labelsView = (LinearLayout) PullRequestDetailsDialogFragment.this.getDialog().findViewById(R.id.labels);
         LayoutParams layoutParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(defaultSpacing, defaultSpacing, defaultSpacing, defaultSpacing);
+        layoutParams.setMargins(defaultSpacingPx, defaultSpacingPx, defaultSpacingPx, defaultSpacingPx);
         Issue issue = event.getIssue();
         for (Label label : issue.getLabels()) {
             addLabel(labelsView, label, layoutParams);
@@ -95,15 +96,17 @@ public class PullRequestDetailsDialogFragment extends DialogFragment {
     }
 
     private int dpToPx(int dp) {
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
-        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
+        return Math.round(px);
     }
 
     private void addLabel(LinearLayout labelsView, Label label, LayoutParams layoutParams) {
+        int defaultSpacingPx = dpToPx(DEFAULT_SPACING_DP);
         TextView textView = new TextView(getContext());
         textView.setLayoutParams(layoutParams);
         textView.setText(label.getName());
-        textView.setPadding(DEFAULT_SPACING_PX, DEFAULT_SPACING_PX, DEFAULT_SPACING_PX, DEFAULT_SPACING_PX);
+        textView.setPadding(defaultSpacingPx, defaultSpacingPx, defaultSpacingPx, defaultSpacingPx);
         textView.setBackgroundColor(Color.parseColor("#" + label.getColor()));
         labelsView.addView(textView);
     }
