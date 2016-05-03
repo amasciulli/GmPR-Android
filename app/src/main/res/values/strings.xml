@@ -21,4 +21,5 @@
     <string name="error_unauthorized">Access unauthorized, please re-check your credentials</string>
     <string name="error_not_found">Organization not found, please re-check your organization settings</string>
     <string name="error_unknown">An error has occurred while loading pull requests</string>
+    <string name="retry">Retry now</string>
 </resources>
