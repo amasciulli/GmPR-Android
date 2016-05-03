@@ -15,23 +15,19 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Cal
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Fragment fragment;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         boolean credentialsSet = preferences.contains(getString(R.string.pref_login)) &&
                 preferences.contains(getString(R.string.pref_password));
         boolean organizationSet = preferences.contains(getString(R.string.pref_organization));
 
-        if (credentialsSet) {
-            if (organizationSet) {
-                fragment = new PullRequestListFragment();
-            } else {
-                fragment = new ChooseOrganizationFragment();
-            }
+        if (!credentialsSet) {
+            replaceFragment(new LoginFragment());
+        } else if (!organizationSet) {
+            replaceFragment(new ChooseOrganizationFragment());
         } else {
-            fragment = new LoginFragment();
+            replaceFragment(new PullRequestListFragment());
         }
-        replaceFragment(fragment);
     }
 
     @Override
