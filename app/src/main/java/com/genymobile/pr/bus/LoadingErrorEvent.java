@@ -1,8 +1,7 @@
 package com.genymobile.pr.bus;
 
 import android.support.annotation.Nullable;
-
-import retrofit.Response;
+import retrofit2.Response;
 
 public class LoadingErrorEvent {
     private final Response response;
