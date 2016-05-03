@@ -160,7 +160,12 @@ public class PullRequestListFragment extends Fragment {
         loadingOrNetworkErrorEncoutered = false;
         setLoadingState(STATE_LOADING);
 
-        provider.getRepos(organization).enqueue(new ReposCallback());
+        int repos = preferences.getInt(getString(R.string.pref_repos), -1);
+        if (repos == ChooseReposFragment.REPOS_WATCHED) {
+            provider.getWatchedRepos().enqueue(new ReposCallback());
+        } else {
+            provider.getRepos(organization).enqueue(new ReposCallback());
+        }
     }
 
     @Override

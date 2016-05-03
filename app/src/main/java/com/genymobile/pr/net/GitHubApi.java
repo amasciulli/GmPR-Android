@@ -20,4 +20,6 @@ public interface GitHubApi {
     @GET("/repos/{owner}/{repo}/issues/{number}")
     Call<Issue> getIssue(@Path("owner") String owner, @Path("repo") String repo, @Path("number") int number);
 
+    @GET("/user/subscriptions")
+    Call<List<Repo>> getWatchedRepos();
 }

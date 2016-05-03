@@ -5,6 +5,7 @@
     <string name="pr_login_body">%1$s \u2014 %2$s</string>
     <string name="pref_login">pref_login</string>
     <string name="pref_password">pref_password</string>
+    <string name="pref_repos">pref_repos</string>
     <string name="hint_login">login</string>
     <string name="hint_password">password</string>
     <string name="save">Save credentials</string>
@@ -22,4 +23,8 @@
     <string name="error_not_found">Organization not found, please re-check your organization settings</string>
     <string name="error_unknown">An error has occurred while loading pull requests</string>
     <string name="retry">Retry now</string>
+    <string name="choose_repos">Choose the repos you want to display</string>
+    <string name="onboarding_complete">Let\'s go</string>
+    <string name="watched">All watched repos</string>
+    <string name="all_repos">All repos from %s</string>
 </resources>

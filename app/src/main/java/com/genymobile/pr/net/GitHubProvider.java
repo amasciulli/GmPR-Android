@@ -26,6 +26,10 @@ public class GitHubProvider {
         return api.getRepos(organization);
     }
 
+    public Call<List<Repo>> getWatchedRepos() {
+        return api.getWatchedRepos();
+    }
+
     public Call<List<PullRequest>> getPullRequests(String owner, String repo) {
         return api.getPullRequests(owner, repo);
     }

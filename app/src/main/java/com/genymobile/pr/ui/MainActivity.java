@@ -1,14 +1,15 @@
 package com.genymobile.pr.ui;
 
+import com.genymobile.pr.R;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
-import com.genymobile.pr.R;
-
-public class MainActivity extends AppCompatActivity implements LoginFragment.Callbacks, ChooseOrganizationFragment.Callbacks {
+public class MainActivity extends AppCompatActivity implements LoginFragment.Callbacks,
+        ChooseOrganizationFragment.Callbacks, ChooseReposFragment.Callbacks {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +21,14 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Cal
         boolean credentialsSet = preferences.contains(getString(R.string.pref_login)) &&
                 preferences.contains(getString(R.string.pref_password));
         boolean organizationSet = preferences.contains(getString(R.string.pref_organization));
+        boolean reposChosen = preferences.contains(getString(R.string.pref_repos));
 
         if (!credentialsSet) {
             replaceFragment(new LoginFragment());
         } else if (!organizationSet) {
             replaceFragment(new ChooseOrganizationFragment());
+        } else if (!reposChosen) {
+            replaceFragment(new ChooseReposFragment());
         } else {
             replaceFragment(new PullRequestListFragment());
         }
@@ -37,6 +41,11 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Cal
 
     @Override
     public void onOrganizationChosen() {
+        replaceFragment(new ChooseReposFragment());
+    }
+
+    @Override
+    public void onReposChosen() {
         replaceFragment(new PullRequestListFragment());
     }
 
