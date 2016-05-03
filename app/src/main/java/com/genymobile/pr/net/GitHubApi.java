@@ -4,9 +4,9 @@ import com.genymobile.pr.model.Issue;
 import com.genymobile.pr.model.PullRequest;
 import com.genymobile.pr.model.Repo;
 
-import retrofit.Call;
-import retrofit.http.GET;
-import retrofit.http.Path;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 import java.util.List;
 
