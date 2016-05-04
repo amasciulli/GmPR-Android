@@ -183,7 +183,7 @@ public class PullRequestListFragment extends Fragment {
         PullRequestsCallback callback = new PullRequestsCallback();
         List<Repo> repos = event.getRepos();
         for (Repo repo : repos) {
-            provider.getPullRequests(organization, repo.getName()).enqueue(callback);
+            provider.getPullRequests(repo.getOwner().getLogin(), repo.getName()).enqueue(callback);
         }
     }
 

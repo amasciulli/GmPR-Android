@@ -9,6 +9,7 @@ public class Repo {
     private String fullName;
     @SerializedName("html_url")
     private String htmlUrl;
+    private User owner;
 
     public String getName() {
         return name;
@@ -20,5 +21,9 @@ public class Repo {
 
     public String getHtmlUrl() {
         return htmlUrl;
+    }
+
+    public User getOwner() {
+        return owner;
     }
 }
