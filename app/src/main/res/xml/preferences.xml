@@ -12,4 +12,10 @@
         android:inputType="textNoSuggestions"
         android:key="@string/pref_organization"
         android:title="@string/title_pref_organization" />
+
+    <ListPreference
+        android:title="@string/repos_displayed"
+        android:key="@string/pref_repos"
+        android:entries="@array/repos_displayed_choices"
+        android:entryValues="@array/repos_displayed_choices_values" />
 </PreferenceScreen>

@@ -72,7 +72,9 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Cal
     }
 
     private boolean shouldChooseOrganization() {
-        return preferences.getInt(getString(R.string.pref_repos), -1) == ChooseReposFragment.REPOS_ALL;
+        String allRepos = getString(R.string.pref_repos_all);
+        String reposToDisplay = preferences.getString(getString(R.string.pref_repos), null);
+        return reposToDisplay != null && reposToDisplay.equals(allRepos);
     }
 
     private void showPullRequests() {

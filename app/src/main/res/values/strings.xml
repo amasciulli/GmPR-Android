@@ -6,6 +6,7 @@
     <string name="pref_login">pref_login</string>
     <string name="pref_password">pref_password</string>
     <string name="pref_repos">pref_repos</string>
+    <string name="pref_repos_list">pref_repos_list</string>
     <string name="hint_login">login</string>
     <string name="hint_password">password</string>
     <string name="save">Save credentials</string>
@@ -28,4 +29,15 @@
     <string name="watched">All watched repos</string>
     <string name="all_repos">All repos from an organization</string>
     <string name="title_watched">Watched by %1$s</string>
+    <string name="pref_repos_watched">watched</string>
+    <string name="pref_repos_all">all_repos</string>
+    <string name="repos_displayed">Repos displayed</string>
+    <string-array name="repos_displayed_choices">
+        <item>@string/watched</item>
+        <item>@string/all_repos</item>
+    </string-array>
+    <string-array name="repos_displayed_choices_values">
+        <item>@string/pref_repos_watched</item>
+        <item>@string/pref_repos_all</item>
+    </string-array>
 </resources>

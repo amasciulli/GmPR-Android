@@ -15,9 +15,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 public class ChooseReposFragment extends Fragment {
-    public static final int REPOS_WATCHED = 0;
-    public static final int REPOS_ALL = 1;
-
     private Callbacks fragmentCallbacks;
     private RadioGroup reposGroup;
 
@@ -53,10 +50,10 @@ public class ChooseReposFragment extends Fragment {
     }
 
     private void saveChosenRepos() {
-        int repos = reposGroup.getCheckedRadioButtonId() == R.id.watched ? REPOS_WATCHED : REPOS_ALL;
+        int reposResource = reposGroup.getCheckedRadioButtonId() == R.id.watched ? R.string.pref_repos_watched : R.string.pref_repos_all;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         preferences.edit()
-                .putInt(getString(R.string.pref_repos), repos)
+                .putString(getString(R.string.pref_repos), getString(reposResource))
                 .apply();
     }
 
