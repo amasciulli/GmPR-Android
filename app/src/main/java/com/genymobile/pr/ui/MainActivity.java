@@ -24,28 +24,44 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Cal
         boolean reposChosen = preferences.contains(getString(R.string.pref_repos));
 
         if (!credentialsSet) {
-            replaceFragment(new LoginFragment());
+            login();
         } else if (!organizationSet) {
-            replaceFragment(new ChooseOrganizationFragment());
+            chooseOrganization();
         } else if (!reposChosen) {
-            replaceFragment(new ChooseReposFragment());
+            chooseRepos();
         } else {
-            replaceFragment(new PullRequestListFragment());
+            showPullRequests();
         }
     }
 
     @Override
     public void onLoginComplete() {
-        replaceFragment(new ChooseOrganizationFragment());
+        chooseOrganization();
     }
 
     @Override
     public void onOrganizationChosen() {
-        replaceFragment(new ChooseReposFragment());
+        chooseRepos();
     }
 
     @Override
     public void onReposChosen() {
+        showPullRequests();
+    }
+
+    private void login() {
+        replaceFragment(new LoginFragment());
+    }
+
+    private void chooseOrganization() {
+        replaceFragment(new ChooseOrganizationFragment());
+    }
+
+    private void chooseRepos() {
+        replaceFragment(new ChooseReposFragment());
+    }
+
+    private void showPullRequests() {
         replaceFragment(new PullRequestListFragment());
     }
 
