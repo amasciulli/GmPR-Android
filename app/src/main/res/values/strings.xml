@@ -27,4 +27,5 @@
     <string name="onboarding_complete">Let\'s go</string>
     <string name="watched">All watched repos</string>
     <string name="all_repos">All repos from %s</string>
+    <string name="title_watched">Watched by %1$s</string>
 </resources>

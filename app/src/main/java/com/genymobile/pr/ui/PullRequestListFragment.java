@@ -151,16 +151,19 @@ public class PullRequestListFragment extends Fragment {
     }
 
     private void loadPullRequests() {
+        int repos = preferences.getInt(getString(R.string.pref_repos), -1);
+
         String login = preferences.getString(getString(R.string.pref_login), null);
         String password = preferences.getString(getString(R.string.pref_password), null);
         organization = preferences.getString(getString(R.string.pref_organization), null);
 
-        getActivity().setTitle(organization);
+        String title = repos == ChooseReposFragment.REPOS_WATCHED ? getString(R.string.title_watched, login) : organization;
+        getActivity().setTitle(title);
+
         provider = new GitHubProvider(login, password);
         loadingOrNetworkErrorEncoutered = false;
         setLoadingState(STATE_LOADING);
 
-        int repos = preferences.getInt(getString(R.string.pref_repos), -1);
         if (repos == ChooseReposFragment.REPOS_WATCHED) {
             provider.getWatchedRepos().enqueue(new ReposCallback());
         } else {
