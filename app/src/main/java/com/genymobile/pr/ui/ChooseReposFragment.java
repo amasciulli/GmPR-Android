@@ -39,10 +39,7 @@ public class ChooseReposFragment extends Fragment {
         reposGroup = (RadioGroup) root.findViewById(R.id.repos);
         RadioButton allReposButton = (RadioButton) root.findViewById(R.id.all_repos);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String organization = preferences.getString(getString(R.string.pref_organization), null);
-
-        allReposButton.setText(getString(R.string.all_repos, organization));
+        allReposButton.setText(getString(R.string.all_repos));
 
         goButton.setOnClickListener(new View.OnClickListener() {
             @Override

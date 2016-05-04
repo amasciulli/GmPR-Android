@@ -11,12 +11,14 @@ import android.support.v7.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity implements LoginFragment.Callbacks,
         ChooseOrganizationFragment.Callbacks, ChooseReposFragment.Callbacks {
 
+    private SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         boolean credentialsSet = preferences.contains(getString(R.string.pref_login)) &&
                 preferences.contains(getString(R.string.pref_password));
@@ -25,10 +27,10 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Cal
 
         if (!credentialsSet) {
             login();
-        } else if (!organizationSet) {
-            chooseOrganization();
         } else if (!reposChosen) {
             chooseRepos();
+        } else if (!organizationSet) {
+            chooseOrganizationOrShowPullRequests();
         } else {
             showPullRequests();
         }
@@ -36,16 +38,16 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Cal
 
     @Override
     public void onLoginComplete() {
-        chooseOrganization();
-    }
-
-    @Override
-    public void onOrganizationChosen() {
         chooseRepos();
     }
 
     @Override
     public void onReposChosen() {
+        chooseOrganizationOrShowPullRequests();
+    }
+
+    @Override
+    public void onOrganizationChosen() {
         showPullRequests();
     }
 
@@ -53,12 +55,24 @@ public class MainActivity extends AppCompatActivity implements LoginFragment.Cal
         replaceFragment(new LoginFragment());
     }
 
+    private void chooseRepos() {
+        replaceFragment(new ChooseReposFragment());
+    }
+
+    private void chooseOrganizationOrShowPullRequests() {
+        if (shouldChooseOrganization()) {
+            chooseOrganization();
+        } else {
+            showPullRequests();
+        }
+    }
+
     private void chooseOrganization() {
         replaceFragment(new ChooseOrganizationFragment());
     }
 
-    private void chooseRepos() {
-        replaceFragment(new ChooseReposFragment());
+    private boolean shouldChooseOrganization() {
+        return preferences.getInt(getString(R.string.pref_repos), -1) == ChooseReposFragment.REPOS_ALL;
     }
 
     private void showPullRequests() {
