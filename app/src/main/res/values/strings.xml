@@ -32,6 +32,7 @@
     <string name="pref_repos_watched">watched</string>
     <string name="pref_repos_all">all_repos</string>
     <string name="repos_displayed">Repos displayed</string>
+    <string name="toast_update_organization">Don\'t forget to update your organization if necessary</string>
     <string-array name="repos_displayed_choices">
         <item>@string/watched</item>
         <item>@string/all_repos</item>

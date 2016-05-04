@@ -138,6 +138,11 @@ public class RepoListAdapter extends RecyclerView.Adapter<RepoListAdapter.ViewHo
         return list.get(position) instanceof Repo ? TYPE_REPO : TYPE_PULL_REQUEST;
     }
 
+    public void clear() {
+        list.clear();
+        notifyDataSetChanged();
+    }
+
     abstract class ViewHolder extends RecyclerView.ViewHolder {
         public ViewHolder(View itemView) {
             super(itemView);
